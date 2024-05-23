@@ -5,11 +5,24 @@
     <meta charset="UTF-8">
     <title>Sleep Maker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        #od-loading {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            opacity: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+    </style>
 </head>
 
 <body style="width: 100%; height: 100%; margin: 0">
+   <div id="od-loading"></div>
     <div id="quiz">
-        <div class="quiz-widget__wrapper" style="display: none">
+        <div id="od-quiz-widget__wrapper" class="quiz-widget__wrapper" style="display: none">
             <div id="quiz-widget" style="display: none"></div>
         </div>
     </div>

@@ -7,12 +7,7 @@ function quizWidget($) {
             mobileBreakpoint: 768,
             getStartedButtonClass: 'quiz-widget__get-started-button',
             getStartedContainerClass: 'quiz-widget__get-started',
-            getFooterContainerClass: 'quiz-widget__footer',
             getStartedText: config.getStartedText || 'Not sure which bed you need? Take our quick Sleep Selector quiz and we\'ll recommend the right bed for you.',
-            getStartedTextFirstParagraph: config.getStartedTextFirstParagraph || 'Embarking on a journey towards perfect sleep begins with choosing the right mattress, a task made simpler with Sleepyhead\'s Sleep Selector. This innovative tool asks insightful questions about your sleeping habits and preferences, guiding you to a personalised Sleepyhead bed recommendation.',
-            getStartedTextSecondParagraph: config.getStartedTextSecondParagraph || 'Through this tailored approach, finding your perfect sleep solution turns your dreams into reality.',
-            getStartedTextThirdParagraph: config.getStartedTextThirdParagraph || 'Why the right mattress is key to a good sleep',
-            getStartedTextFourthParagraph: config.getStartedTextFourthParagraph || 'Finding the right mattress is a cornerstone of achieving optimal sleep, impacting everything from our physical well-being to our mental health. It serves not just as a platform for rest but as a tool for enhancing the quality of our sleep. A suitable mattress adapts to the contours of the body, providing support where it\'s needed most. Sleepyhead embodies the belief that the right mattress is essential for a better quality of life.',
             quizTabs: '#quiz-tabs',
             questionTitle: '.qp_qi',
             questionPicture: '.qp_pic',
@@ -49,6 +44,8 @@ function quizWidget($) {
                     self.questions = quizData.schema.questions;
                     quiz.scrollTo = ()=>{};
                     quiz.xSend = function (n, t, i) {
+                        var odLoading = document.getElementById('od-loading');
+                        odLoading.style.display = 'block';
                         var isLeads = !!n && !!n.d && $('#quiz-ntabs').length > 0;
                         isLeads && self._setLeadsDataToStorage(n);
                         return document.qzScript ? qz.xSend(n, t, i) : xSend(n, t, i);
@@ -526,6 +523,8 @@ function quizWidget($) {
             activeItem.addClass(activeClass);
 
             offset && $(this.options.progressBar).stop().animate({scrollLeft: offset.left - 20}, 500);
+            var odLoading = document.getElementById('od-loading');
+            odLoading.style.display = 'none';
         },
 
         _isResultsStep: function () {
@@ -709,33 +708,15 @@ function quizWidget($) {
                 quizTimeText +
                 '</div>' +
 
-                '<div class="quiz-widget__get-started-text quiz-widget__get-first-paragraph-text">' +
-                this.options.getStartedTextFirstParagraph +
-                '</div>' +
-
-                '<div class="quiz-widget__get-started-text quiz-widget__get-second-paragraph-text">' +
-                this.options.getStartedTextSecondParagraph +
-                '</div>' +
-
-                '<div class="quiz-widget__get-started-text quiz-widget__bold">' +
+                '<div class="quiz-widget__get-started-text">' +
                 this.options.getStartedText +
                 '</div>' +
 
                 '<button class=' + this.options.getStartedButtonClass + '>Get started</button>' +
                 '</div>';
 
-            var footerHtml = '<div class=' + this.options.getFooterContainerClass + '>' +
-                '<div class="quiz-widget__footer quiz-widget__get-third-paragraph-text">' +
-                this.options.getStartedTextThirdParagraph +
-                '</div>' +
-
-                '<div class="quiz-widget__get-started-text quiz-widget__get-fourth-paragraph-text">' +
-                this.options.getStartedTextFourthParagraph +
-                '</div>';
-
             $('.' + this.options.getStartedContainerClass).remove();
             $('.' + config.quizWrapper).prepend(html);
-            $('#quiz-widget-footer').prepend(footerHtml);
         },
 
 
@@ -878,9 +859,6 @@ function quizWidget($) {
         _triggerGetStartedVisibility: function (isVisible) {
             $('.' + this.options.getStartedContainerClass).toggle(isVisible);
         },
-        _triggerFooterParagraphVisibility: function (isVisible) {
-            $('.' + this.options.getFooterContainerClass).toggle(isVisible);
-        },
 
         _triggerFormVisibility: function (isVisible) {
             $('body').toggleClass('quiz-body-overflowed', isVisible);
@@ -888,6 +866,10 @@ function quizWidget($) {
         },
 
         _triggerProgressBarVisibility: function (isVisible) {
+            if (!isVisible) {
+                var odLoading = document.getElementById('od-loading');
+                odLoading.style.display = 'none';
+            }
             $('.' + this.options.progressBarWrapperClass).toggle(isVisible);
         },
 
@@ -895,7 +877,6 @@ function quizWidget($) {
             this._triggerQuizContainerVisibility(true);
             this._triggerProgressBarVisibility(true);
             this._triggerGetStartedVisibility(false);
-            this._triggerFooterParagraphVisibility(false);
             this._updateProgressBar();
 
             window.dataLayer.push({
@@ -912,8 +893,8 @@ function quizWidget($) {
 function incertGTM () {
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
         var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        ' https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            ' https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5F7CN2V');
 }
 
