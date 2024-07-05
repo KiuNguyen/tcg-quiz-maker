@@ -915,7 +915,6 @@ function incertUserIPDetector () {
 
 (function () {
     incertUserIPDetector ()
-    incertGTM ()
 // Localize jQuery variable
     var jQuery;
 
