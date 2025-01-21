@@ -313,6 +313,7 @@ function quizWidget($) {
                         this.pushFormDataToDataLayer();
                         !localStorage.getItem('reloadedresults') && $("html, body").animate({ scrollTop: 0 }, 'fast');
                         localStorage.setItem('reloadedresults', true);
+                        $('#quiz-results').show();
                     } else {
                         localStorage.removeItem('reloadedresults');
                     }
